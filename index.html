@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<textarea id="conv" cols="100" rows="25">
+ 027	Sandshrew	GROUND	50	75	85	20	30	40
+ 028	Sandslash	GROUND	75	100	110	45	55	65
+ 029	Nidoran♀	POISON	55	47	52	40	40	41
+ 030	Nidorina	POISON	70	62	67	55	55	56
+ 031	Nidoqueen	POISON/GROUND	90	92	87	75	85	76
+ 032	Nidoran♂	POISON	46	57	40	40	40	50
+ 033	Nidorino	POISON	61	72	57	55	55	65
+ 034	Nidoking	POISON/GROUND	81	102	77	85	75	85
+ 035	Clefairy	FAIRY	70	45	48	60	65	35
+ 036	Clefable	FAIRY	95	70	73	95	90	60
+ 037	Vulpix	FIRE	38	41	40	50	65	65
+ 038	Ninetales	FIRE	73	76	75	81	100	100
+ 039	Jigglypuff	NORMAL/FAIRY	115	45	20	45	25	20
+ 040	Wigglytuff	NORMAL/FAIRY	140	70	45	85	50	45
+ 041	Zubat	POISON/FLYING	40	45	35	30	40	55
+ 042	Golbat	POISON/FLYING	75	80	70	65	75	90
+ 043	Oddish	GRASS/POISON	45	50	55	75	65	30
+ 044	Gloom	GRASS/POISON	60	65	70	85	75	40
+ 045	Vileplume	GRASS/POISON	75	80	85	110	90	50
+ 046	Paras	BUG/GRASS	35	70	55	45	55	25
+ 047	Parasect	BUG/GRASS	60	95	80	60	80	30
+ 048	Venonat	BUG/POISON	60	55	50	40	55	45
+ 049	Venomoth	BUG/POISON	70	65	60	90	75	90
+ 050	Diglett	GROUND	10	55	25	35	45	95
+ 051	Dugtrio	GROUND	35	100	50	50	70	120
+ 052	Meowth	NORMAL	40	45	35	40	40	90
+ 053	Persian	NORMAL	65	70	60	65	65	115
+ 054	Psyduck	WATER	50	52	48	65	50	55
+ 055	Golduck	WATER	80	82	78	95	80	85
+ 056	Mankey	FIGHTING	40	80	35	35	45	70
+ 057	Primeape	FIGHTING	65	105	60	60	70	95
+ 058	Growlithe	FIRE	55	70	45	70	50	60
+ 059	Arcanine	FIRE	90	110	80	100	80	95
+ 060	Poliwag	WATER	40	50	40	40	40	90
+ 061	Poliwhirl	WATER	65	65	65	50	50	90
+ 062	Poliwrath	WATER/FIGHTING	90	95	95	70	90	70
+ 063	Abra	PSYCHIC	25	20	15	105	55	90
+ 064	Kadabra	PSYCHIC	40	35	30	120	70	105
+ 065	Alakazam	PSYCHIC	55	50	45	135	95	120
+ 066	Machop	FIGHTING	70	80	50	35	35	35
+ 067	Machoke	FIGHTING	80	100	70	50	60	45
+ 068	Machamp	FIGHTING	90	130	80	65	85	55
+</textarea>
+<button id="sub">Enviar</button>
+<script src="node_modules/file-saver/FileSaver.min.js" type="text/javascript"></script>
+<script src="jquery.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		var obj =[];
+		var pokemons = []
+		var data = {};
+		
+		$('#sub').click(function(){
+			var varnumber;
+			var varname;
+			var vardesc = "";
+			var vartype;
+			var type1;
+			var type2;
+			var varhp;
+			var varattack;
+			var vardefense;
+			var varspattack;
+			var varspdefense;
+			var varspeed;
+			var splitado = $('#conv').val().trim().split("\n");
+
+			$.each(splitado,function(s){
+				var dados = splitado[s].trim().split('\t');
+				obj.push(dados);
+			});
+
+
+
+			$.each(obj,function(s){
+					var baseStats = {}
+					
+					//SETANDO AS VARIÁVEIS
+					varnumber = obj[s][0];
+					varname = obj[s][1];
+					vartype = obj[s][2];
+					varhp = parseInt(obj[s][3]);
+					varattack = parseInt(obj[s][4]);
+					vardefense = parseInt(obj[s][5]);
+					varspattack = parseInt(obj[s][6]);
+					varspdefense = parseInt(obj[s][7]);
+					varspeed = parseInt(obj[s][8]);
+
+					//SETANDO O OBJETO
+					data.number = varnumber;
+					data.name = varname;
+					data.desc = vardesc;
+					data.image = "";
+					data.sprite = ["",""],
+					data.type = vartype.split("/");
+
+					//TRADUZINDO O TIPO 1
+					if(data.type[0] == 'NORMAL')
+						data.type[0] = 'Normal';
+					else if (data.type[0] == 'FIRE')
+						data.type[0] = 'Fogo';
+					else if (data.type[0] == 'WATER')
+						data.type[0] = 'Água';
+					else if (data.type[0] == 'ELETRIC')
+						data.type[0] = 'Elétrico';
+					else if (data.type[0] == 'ICE')
+						data.type[0] = 'Gelo';
+					else if (data.type[0] == 'FIGHTING')
+						data.type[0] = 'Lutador';
+					else if (data.type[0] == 'POISON')
+						data.type[0] = 'Venenoso';
+					else if (data.type[0] == 'GRASS')
+						data.type[0] = 'Grama';
+					else if (data.type[0] == 'GROUND')
+						data.type[0] = 'Terra';
+					else if (data.type[0] == 'FLYING')
+						data.type[0] = 'Voador';
+					else if (data.type[0] == 'PSYCHIC')
+						data.type[0] = 'Psiquico';
+					else if (data.type[0] == 'BUG')
+						data.type[0] = 'Inseto';
+					else if (data.type[0] == 'ROCK')
+						data.type[0] = 'Pedra';
+					else if (data.type[0] == 'GHOST')
+						data.type[0] = 'Fantasma';
+					else if (data.type[0] == 'DRAGON')
+						data.type[0] = 'Dragão';
+					else if (data.type[0] == 'DARK')
+						data.type[0] = 'Trevas';
+					else if (data.type[0] == 'STEEL')
+						data.type[0] = 'Aço';
+					else if (data.type[0] == 'FAIRY')
+						data.type[0] = 'Fada';
+
+					//TRADUZINDO O TIPO 2
+					if(data.type[1] == 'NORMAL')
+						data.type[1] = 'Normal';
+					else if (data.type[1] == 'FIRE')
+						data.type[1] = 'Fogo';
+					else if (data.type[1] == 'WATER')
+						data.type[1] = 'Água';
+					else if (data.type[1] == 'ELECTRIC')
+						data.type[1] = 'Elétrico';
+					else if (data.type[1] == 'ICE')
+						data.type[1] = 'Gelo';
+					else if (data.type[1] == 'FIGHTING')
+						data.type[1] = 'Lutador';
+					else if (data.type[1] == 'POISON')
+						data.type[1] = 'Venenoso';
+					else if (data.type[1] == 'GRASS')
+						data.type[1] = 'Grama';
+					else if (data.type[1] == 'GROUND')
+						data.type[1] = 'Terra';
+					else if (data.type[1] == 'FLYING')
+						data.type[1] = 'Voador';
+					else if (data.type[1] == 'PSYCHIC')
+						data.type[1] = 'Psiquico';
+					else if (data.type[1] == 'BUG')
+						data.type[1] = 'Inseto';
+					else if (data.type[1] == 'ROCK')
+						data.type[1] = 'Pedra';
+					else if (data.type[1] == 'GHOST')
+						data.type[1] = 'Fantasma';
+					else if (data.type[1] == 'DRAGON')
+						data.type[1] = 'Dragão';
+					else if (data.type[1] == 'DARK')
+						data.type[1] = 'Trevas';
+					else if (data.type[1] == 'STEEL')
+						data.type[1] = 'Aço';
+					else if (data.type[1] == 'FAIRY')
+						data.type[1] = 'Fada';
+
+					//PASSANDO COMO STRING O MÉTODO PARA O ANGULAR
+					if(data.type.length > 1)
+					{
+						data.type = ["types.find(tipo => tipo.name == '"+data.type[0]+"')","types.find(tipo => tipo.name == '"+data.type[1]+"')"];
+					}else{
+						data.type = ["types.find(tipo => tipo.name == '"+data.type[0]+"')"];
+					}
+					
+
+					data.passive = "";
+					data.baseStats = {hp: varhp, attack: varattack, defense: vardefense, spAtk: varspattack, spDef: varspdefense, speed: varspeed};
+					data.generation = 1;
+
+
+					
+
+
+					pokemons.push(data);
+					data = {};
+
+			});
+			console.log(JSON.stringify(pokemons));
+
+			// var file = new File(pokemons, "hello world.txt", {type: "text/plain;charset=utf-8"});
+			// saveAs(file);
+			// $.each(pokemons, function(s){
+			// 	var t1;
+			// 	var t2
+			// 	if(pokemons[s].Type.length > 1)
+			// 	{
+			// 		t1 = pokemons[s].Type[0];
+			// 		t2 = pokemons[s].Type[1];
+			// 		console.log(t1+'   '+t2);
+			// 	}else
+			// 	{
+			// 		t1 = pokemons[s].Type;
+			// 		console.log(t1);
+			// 	}
+			// });
+			
+		});
+	});
+	// if(t == 'NORMAL')
+					// 	type1 = 'Normal';
+					// else if (t == 'FIRE')
+					// 	type1 = 'Fogo'
+					// else if (t == 'WATER')
+					// 	type1 = 'Água'
+					// else if (t == 'ELETRIC')
+					// 	type1 = 'Elétrico'
+					// else if (t == 'ICE')
+					// 	type1 = 'Gelo'
+					// else if (t == 'FIGHTING')
+					// 	type1 = 'Lutador'
+					// else if (t == 'POISON')
+					// 	type1 = 'Venenoso'
+					// else if (t == 'GRASS')
+					// 	type1 = 'Grama'
+					// else if (t == 'GROUND')
+					// 	type1 = 'Terra'
+					// else if (t == 'FLYING')
+					// 	type1 = 'Voador'
+					// else if (t == 'PSYCHIC')
+					// 	type1 = 'Psiquico'
+					// else if (t == 'BUG')
+					// 	type1 = 'Inseto'
+					// else if (t == 'ROCK')
+					// 	type1 = 'Pedra'
+					// else if (t == 'GHOST')
+					// 	type1 = 'Fantasma'
+					// else if (t == 'DRAGON')
+					// 	type1 = 'Dragão'
+					// else if (t == 'DARK')
+					// 	type1 = 'Trevas'
+					// else if (t == 'STEEL')
+					// 	type1 = 'Aço'
+					// else if (t == 'FAIRY')
+					// 	type1 = 'Fada'
+</script>
+
+</body>
+</html>
